@@ -50,27 +50,23 @@ func hogwarts(ctx context.Context) {
 }
 
 func main() {
-	fmt.Println("Starting Context Demonstration with Cancel Cause...")
+	fmt.Print("\n\nStarting Context Demonstration with Cancel Cause...\n\n")
 	fmt.Println("---------------------------------------------------")
 
-	// 1. Create a cancellable child context using WithCancelCause.
-	// The cancel function now accepts an error to define the cause.
 	ctx, cancel := context.WithCancelCause(context.Background())
 
 	// Use defer to call cancel with a nil cause for standard function exit cleanup.
-	// However, we will explicitly call cancel later with a cause for the demo.
-	// We defer a null cancel here just in case main exits early.
 	defer cancel(nil)
 
-	// 2. Start both workers
+	// Start both workers
 	go leakyCauldron(context.Background())
 	go hogwarts(ctx)
 
-	// 3. Let the workers run for a short time
+	// Let the workers run for a short time
 	fmt.Println("\nAllowing workers to run for 1.5 seconds...")
 	time.Sleep(1500 * time.Millisecond)
 
-	// 4. Cancel the context, providing a specific cause.
+	// Cancel the context, providing a specific cause.
 	causeError := fmt.Errorf("Voldemort is here: all tasks stopped")
 	fmt.Printf("\n>>> Calling cancel(cause) with cause: '%v' <<<\n", causeError)
 	cancel(causeError) // Pass the cause error here
