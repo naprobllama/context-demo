@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-// leakyWorker simulates a task that ignores the context cancellation signal.
+// leakyCauldron simulates a task that ignores the context cancellation signal.
 // This goroutine will continue running (and logging) indefinitely, even after
 // the parent context is cancelled, leading to a goroutine leak.
 func leakyCauldron(ctx context.Context) {
